@@ -1,0 +1,45 @@
+{
+  "name": "vscode-yext",
+  "displayName": "Yext",
+  "description": "A VS Code extension",
+  "version": "1.0.0",
+  "publisher": "Tristan Timblin",
+  "repository": "https://github.com/tatimblin/vscode-yext",
+  "engines": {
+    "vscode": "^1.22.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:helloworld.helloWorld"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "helloworld.helloWorld",
+        "title": "Hello World"
+      }
+    ]
+  },
+  "scripts": {
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
+    "build": "pnpm run esbuild-base -- --sourcemap",
+    "watch": "pnpm run esbuild-base -- --sourcemap --watch",
+    "vscode:prepublish": "pnpm run esbuild-base -- --minify"
+  },
+  "keywords": [
+    "VS Code extension",
+    "Yext"
+  ],
+  "author": "Tristan Timblin",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.11.3",
+    "@types/vscode": "^1.72.0",
+    "esbuild": "^0.15.12",
+    "eslint": "^8.26.0",
+    "typescript": "^4.8.4"
+  }
+}
