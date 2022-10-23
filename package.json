@@ -12,22 +12,40 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:helloworld.helloWorld"
+    "onCommand:helloworld.helloWorld",
+    "onView:yext-admin-console"
   ],
-  "main": "./out/extension.js",
+  "main": "./out/main.js",
   "contributes": {
     "commands": [
       {
         "command": "helloworld.helloWorld",
         "title": "Hello World"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "yext-explorer",
+          "title": "Yext",
+          "icon": "assets/yext-logo.svg"
+        }
+      ]
+    },
+    "views": {
+      "yext-explorer": [
+        {
+          "id": "yext-admin-console",
+          "name": "Admin Console"
+        }
+      ]
+    }
   },
   "scripts": {
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
-    "build": "pnpm run esbuild-base -- --sourcemap",
-    "watch": "pnpm run esbuild-base -- --sourcemap --watch",
-    "vscode:prepublish": "pnpm run esbuild-base -- --minify"
+    "build": "pnpm run esbuild-base --sourcemap",
+    "watch": "pnpm run esbuild-base --sourcemap --watch",
+    "vscode:prepublish": "pnpm run esbuild-base --minify"
   },
   "keywords": [
     "VS Code extension",
