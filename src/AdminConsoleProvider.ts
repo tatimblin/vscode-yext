@@ -41,7 +41,7 @@ export class AdminConsoleProvider implements vscode.TreeDataProvider<vscode.Tree
   }
 }
 
-class DocumentItem extends vscode.TreeItem {
+export class DocumentItem extends vscode.TreeItem {
   constructor(
     public readonly ref: fs.Dirent,
     public readonly parent?: DocumentItem
@@ -49,9 +49,15 @@ class DocumentItem extends vscode.TreeItem {
     super(ref.name, ref.isDirectory()
       ? vscode.TreeItemCollapsibleState.Collapsed
       : vscode.TreeItemCollapsibleState.None);
+
     this.tooltip = 'Test';
     this.description = 'Test';
-    this.contextValue = 'document';
+    this.contextValue = this.type;
+    this.command = {
+      command: 'yext.open',
+      title: '',
+      arguments: [this],
+    };
   }
 
   get path(): string {
@@ -64,5 +70,11 @@ class DocumentItem extends vscode.TreeItem {
     }
 
     return itemPath;
+  }
+
+  get type(): string {
+    return this.ref.isDirectory()
+      ? 'directory'
+      : 'document';
   }
 }
