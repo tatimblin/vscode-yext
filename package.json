@@ -12,15 +12,15 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:helloworld.helloWorld",
+    "workspaceContains:**/.yextrc",
     "onView:yext-admin-console"
   ],
   "main": "./out/main.js",
   "contributes": {
     "commands": [
       {
-        "command": "helloworld.helloWorld",
-        "title": "Hello World"
+        "command": "yext.init",
+        "title": "Sign In"
       }
     ],
     "viewsContainers": {

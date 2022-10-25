@@ -23,9 +23,11 @@ export class AdminConsoleProvider implements vscode.TreeDataProvider<vscode.Tree
         parent: element,
         Item: DocumentItem,
       }),
-    ]).then(([items]) => [
-      ...items,
-    ]);
+    ])
+      .then(([items]) => [
+        ...items,
+      ])
+      .catch(() => []);
   }
 
   async load({
