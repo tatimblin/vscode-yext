@@ -1,11 +1,11 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
-
-export type Universe = 'staging' | 'production';
+import { Universe } from "./types";
 
 interface RCFile {
   businessId: number,
-  universe: Universe,
+  businessName: string,
+  env: Universe,
 }
 
 export class RunCommands {
@@ -19,8 +19,12 @@ export class RunCommands {
     return this.file.businessId;
   }
 
-  get universe(): string {
-    return this.file.universe;
+  get businessName(): string {
+    return this.file.businessName;
+  }
+
+  get env(): Universe {
+    return this.file.env;
   }
 
   get root(): string | undefined {
@@ -40,11 +44,7 @@ export class RunCommands {
         }, {}) as RCFile;
     }
     catch {
-      console.log('file not found');
-      return {
-        businessId: 1,
-        universe: 'staging',
-      };
+      throw new Error('.yextrc file could not be parsed');
     }
   }
 }

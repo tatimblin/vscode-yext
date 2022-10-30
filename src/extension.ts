@@ -1,13 +1,12 @@
 import * as vscode from "vscode";
-import * as fs from "fs";
 
 import { AuthenticationFlow } from './AuthenticationFlow';
 import { AdminConsoleProvider, DocumentItem } from './AdminConsoleProvider';
 import { openJSONFile } from './openJSONFile';
+import { RegisterYextInit } from "./commands";
 import { RunCommands } from './RunCommands';
 
-export function activate(context: vscode.ExtensionContext) {
-  console.log(context);
+export function activate() {
   const accountPath = '/Users/ttimblin/.yext/pulled/production/account-3728752';
 
   const yextRC = new RunCommands('.yextrc');
@@ -25,10 +24,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
   });
 
-  vscode.commands.registerCommand('yext.init', (context: RunCommands) => {
-    console.log(context);
-    vscode.window.showInformationMessage('Try and sign in', ...['Sign In', 'Close']);
-  });
+  RegisterYextInit();
 }
 
 export function deactivate() {}

@@ -20,7 +20,7 @@
     "commands": [
       {
         "command": "yext.init",
-        "title": "Sign In"
+        "title": "Yext: Init"
       }
     ],
     "viewsContainers": {
