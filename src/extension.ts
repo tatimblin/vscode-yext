@@ -7,20 +7,21 @@ import { RegisterYextInit } from "./commands";
 import { RunCommands } from './RunCommands';
 
 export function activate() {
-  const accountPath = '/Users/ttimblin/.yext/pulled/production/account-3728752';
+  const config = vscode.workspace.getConfiguration('yext');
+  const yextPath: string = config.get('path', '/Users/ttimblin/.yext/');
 
   const yextRC = new RunCommands('.yextrc');
   new AuthenticationFlow(yextRC);
 
   vscode.window.registerTreeDataProvider(
     'yext-admin-console',
-    new AdminConsoleProvider(accountPath),
+    new AdminConsoleProvider(yextPath),
   );
 
   vscode.commands.registerCommand('yext.open', (item: DocumentItem) => {
     vscode.window.showInformationMessage(`You selected ${item.ref.name}`);
     if (item.contextValue === 'document') {
-      openJSONFile(`${accountPath}/${item.path}`);
+      openJSONFile(yextPath + item.path);
     }
   });
 

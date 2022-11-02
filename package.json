@@ -23,6 +23,16 @@
         "title": "Yext: Init"
       }
     ],
+    "configuration": {
+      "title": "Yext",
+      "properties": {
+        "yext.path": {
+          "type": "string",
+          "default": "/Users/ttimblin/.yext/",
+          "description": "Path to .yext/ directory"
+        }
+      }
+    },
     "viewsContainers": {
       "activitybar": [
         {
