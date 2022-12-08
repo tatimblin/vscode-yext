@@ -18,6 +18,7 @@ export class AdminConsoleProvider implements vscode.TreeDataProvider<vscode.Tree
   }
 
   getChildren(element?: DocumentItem): Thenable<vscode.TreeItem[]> {
+    console.log(element)
     return Promise.all([
       this.load({
         parent: element,
@@ -50,11 +51,9 @@ export class DocumentItem extends vscode.TreeItem {
       ? vscode.TreeItemCollapsibleState.Collapsed
       : vscode.TreeItemCollapsibleState.None);
 
-    this.tooltip = 'Test';
-    this.description = 'Test';
     this.contextValue = this.type;
     this.command = {
-      command: 'yext.open',
+      command: 'yext.openFile',
       title: '',
       arguments: [this],
     };

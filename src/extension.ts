@@ -1,31 +1,31 @@
 import * as vscode from "vscode";
 
 import { AuthenticationFlow } from './AuthenticationFlow';
-import { AdminConsoleProvider, DocumentItem } from './AdminConsoleProvider';
-import { openJSONFile } from './openJSONFile';
-import { RegisterYextInit } from "./commands";
-import { RunCommands } from './RunCommands';
+import { AdminConsoleProvider } from './AdminConsoleProvider';
+import { CredentialsProvider } from './CredentialsProvider';
+import {
+  RegisterOpenFile,
+  RegisterYextInit
+} from "./commands";
 
 export function activate() {
+  new AuthenticationFlow();
   const config = vscode.workspace.getConfiguration('yext');
   const yextPath: string = config.get('path', '/Users/ttimblin/.yext/');
 
-  const yextRC = new RunCommands('.yextrc');
-  new AuthenticationFlow(yextRC);
+  // Register Commands
+  RegisterOpenFile();
+  RegisterYextInit();
 
+  // Register Views
+  vscode.window.registerTreeDataProvider(
+    'yext-credentials',
+    new CredentialsProvider(yextPath),
+  );
   vscode.window.registerTreeDataProvider(
     'yext-admin-console',
     new AdminConsoleProvider(yextPath),
   );
-
-  vscode.commands.registerCommand('yext.open', (item: DocumentItem) => {
-    vscode.window.showInformationMessage(`You selected ${item.ref.name}`);
-    if (item.contextValue === 'document') {
-      openJSONFile(yextPath + item.path);
-    }
-  });
-
-  RegisterYextInit();
 }
 
 export function deactivate() {}

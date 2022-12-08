@@ -5,6 +5,6 @@ export async function openJSONFile(filePath: string) {
     const doc = await vscode.workspace.openTextDocument(filePath);
     vscode.window.showTextDocument(doc);
   } catch (err) {
-    vscode.window.showErrorMessage(err.message);
+    vscode.window.showErrorMessage(`Could not open file at location "${filePath}"`);
   }
 }

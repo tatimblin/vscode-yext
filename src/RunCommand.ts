@@ -2,17 +2,17 @@ import * as vscode from "vscode";
 import * as fs from "fs";
 import { Universe } from "./types";
 
-interface RCFile {
+interface RunCommandsFile {
   businessId: number,
   businessName: string,
   env: Universe,
 }
 
-export class RunCommands {
-  private file: RCFile;
+export class RunCommand {
+  private file: RunCommandsFile;
 
   constructor(fileName: string) {
-    this.file = this.readRC(`${this.root}/${fileName}`);
+    this.file = this.readRunCommandsFile(`${this.root}/${fileName}`);
   }
 
   get businessId(): number {
@@ -30,18 +30,20 @@ export class RunCommands {
   get root(): string | undefined {
     const fileName = vscode.window.activeTextEditor?.document.fileName;
     return vscode.workspace.workspaceFolders
-      ?.map((folder) => folder.uri.fsPath)
+      ?.map((folder) => {
+        return folder.uri.fsPath;
+      })
       .filter((fsPath) => fileName?.startsWith(fsPath))[0];
   }
 
-  readRC(path: string): RCFile {
+  private readRunCommandsFile(path: string): RunCommandsFile {
     try {
       return fs.readFileSync(path, 'utf8')
         .split(/\n/)
         .reduce((obj, raw) => {
           const delimted = raw.split(/=/);
           return { ...obj, [delimted[0]]: delimted[1] }
-        }, {}) as RCFile;
+        }, {}) as RunCommandsFile;
     }
     catch {
       throw new Error('.yextrc file could not be parsed');

@@ -1,19 +1,14 @@
 import * as vscode from "vscode";
-import { RunCommands } from "./RunCommands";
-import { Universe } from "./types";
+import { RunCommand } from "./RunCommand";
 
 type AuthAction = "Sign In" | "Close";
 
 export class AuthenticationFlow {
-  private businessId: number;
-  private businessName?: string;
-  private env: Universe
+  private runCommands: RunCommand;
   private messageTemplate: string;
 
-  constructor(rc: RunCommands, message?: string) {
-    this.businessId = rc.businessId;
-    this.businessName = rc.businessName;
-    this.env = rc.env;
+  constructor(message?: string) {
+    this.runCommands = new RunCommand('.yextrc');
     this.messageTemplate = message || `Account configuration found for %s, would you like to sign in?`;
 
     this.prompt()
@@ -29,17 +24,17 @@ export class AuthenticationFlow {
   }
 
   get message(): string {
-    let name = `${this.businessId}`;
-    if (this.businessName) {
-      name = `${this.businessName} (${name})`;
+    let name = `${this.runCommands.businessId}`;
+    if (this.runCommands.businessName) {
+      name = `${this.runCommands.businessName} (${name})`;
     }
     return this.messageTemplate.replace('%s', name);
   }
 
   authenticate() {
     vscode.commands.executeCommand('yext.init', {
-      businessId: this.businessId,
-      env: this.env,
+      businessId: this.runCommands.businessId,
+      env: this.runCommands.env,
     });
   }
 }

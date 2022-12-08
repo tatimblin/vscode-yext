@@ -45,6 +45,10 @@
     "views": {
       "yext-explorer": [
         {
+          "id": "yext-credentials",
+          "name": "Credentials"
+        },
+        {
           "id": "yext-admin-console",
           "name": "Admin Console"
         }
