@@ -9,6 +9,7 @@ import {
 } from "./commands";
 
 export function activate() {
+  console.log("hey T")
   new AuthenticationFlow();
   const config = vscode.workspace.getConfiguration('yext');
   const yextPath: string = config.get('path', '/Users/ttimblin/.yext/');

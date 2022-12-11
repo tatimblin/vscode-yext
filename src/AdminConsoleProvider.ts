@@ -18,7 +18,7 @@ export class AdminConsoleProvider implements vscode.TreeDataProvider<vscode.Tree
   }
 
   getChildren(element?: DocumentItem): Thenable<vscode.TreeItem[]> {
-    console.log(element)
+    console.log({ element });
     return Promise.all([
       this.load({
         parent: element,
@@ -37,8 +37,14 @@ export class AdminConsoleProvider implements vscode.TreeDataProvider<vscode.Tree
       ? this.accountPath + '/' + parent.path
       : this.accountPath;
 
-    return fs.readdirSync(path, { withFileTypes: true })
-      .map(ref => new Item(ref, parent));
+    const test = fs.readdirSync(path, { withFileTypes: true })
+      .filter((ref) => ![".DS_Store"].includes(ref.name))
+      .map((ref) => {
+        console.log(ref);
+        return new Item(ref, parent)
+      });
+
+    return test;
   }
 }
 
