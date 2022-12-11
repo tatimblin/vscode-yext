@@ -74,11 +74,12 @@ export class DocumentItem extends vscode.TreeItem {
     super(ref.name, vscode.TreeItemCollapsibleState.None);
 
     this.contextValue = 'document';
-    this.command = {
-      command: 'yext.openFile',
-      title: '',
-      arguments: [this],
-    };
+    // this.command = {
+    //   command: 'yext.openFile',
+    //   title: '',
+    //   arguments: [this],
+    // };
+    this.iconPath = new vscode.ThemeIcon("key");
   }
 
   get path() {

@@ -13,7 +13,7 @@
   ],
   "activationEvents": [
     "workspaceContains:**/.yextrc",
-    "onView:yext-admin-console"
+    "onView:yext-credentials"
   ],
   "main": "./out/main.js",
   "contributes": {
@@ -47,10 +47,6 @@
         {
           "id": "yext-credentials",
           "name": "Credentials"
-        },
-        {
-          "id": "yext-admin-console",
-          "name": "Admin Console"
         }
       ]
     }
