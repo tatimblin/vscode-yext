@@ -1,27 +1,28 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
+import { Credential, CredentialFile } from "./Credential";
 
 type LoadProps = {
-  parent?: DocumentItem,
+  parent?: Credential,
   Item: any,
 }
 
 export class CredentialsProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
-  accountPath: string;
+  path: string;
 
-  constructor(accountPath: string) {
-    this.accountPath = accountPath + 'env';
+  constructor(path: string) {
+    this.path = path;
   }
 
   getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
     return element;
   }
 
-  getChildren(element?: DocumentItem): Thenable<vscode.TreeItem[]> {
+  getChildren(element?: Credential): Thenable<vscode.TreeItem[]> {
     return Promise.all([
       this.load({
         parent: element,
-        Item: DocumentItem,
+        Item: Credential,
       }),
     ])
       .then(([items]) => [...items])
@@ -29,18 +30,13 @@ export class CredentialsProvider implements vscode.TreeDataProvider<vscode.TreeI
   }
 
   async load({
-    parent,
     Item,
   }: LoadProps): Promise<vscode.TreeItem[]> {
-    const path = parent?.path
-      ? this.accountPath + '/' + parent.path
-      : this.accountPath;
-
-    return this.getAllFiles(path)
-      .map(ref => new Item(ref));
+    return this.getAllFilesInDirectory(`${this.path}env`)
+      .map(ctx => new Item(...ctx, this.getActiveCredential()));
   }
 
-  getAllFiles(dirPath: string, arrayOfFiles: fs.Dirent[] = []) {
+  getAllFilesInDirectory(dirPath: string, arrayOfFiles: [fs.Dirent, string][] = []) {
     const files = fs.readdirSync(dirPath, { withFileTypes: true });
 
     for (const ref of files) {
@@ -51,38 +47,30 @@ export class CredentialsProvider implements vscode.TreeDataProvider<vscode.TreeI
       const path = `${dirPath}/${ref.name}`;
 
       if (ref.isDirectory()) {
-        arrayOfFiles = this.getAllFiles(path, arrayOfFiles);
+        arrayOfFiles = this.getAllFilesInDirectory(path, arrayOfFiles);
       } else {
-        ref.path = path;
-        arrayOfFiles.push(ref);
+        arrayOfFiles.push([ref, path]);
       }
     }
 
     return arrayOfFiles;
   }
 
+  getActiveCredential(): CredentialFile {
+    const raw = fs.readFileSync(`${this.path}current/active-credential`, { encoding:'utf8' });
+    const json = JSON.parse(raw);
+    const parts = json.cred.split("-");
+
+    return {
+      businessId: parseInt(parts.pop()),
+      businessName: parts.join("-"),
+      env: json.env,
+      name: json.cred,
+    };
+  }
+
   isInvalidName(fileName: string): boolean {
     return ['.DS_Store', 'variables.json', 'default']
       .includes(fileName);
-  }
-}
-
-export class DocumentItem extends vscode.TreeItem {
-  constructor(
-    public readonly ref: fs.Dirent
-  ) {
-    super(ref.name, vscode.TreeItemCollapsibleState.None);
-
-    this.contextValue = 'document';
-    // this.command = {
-    //   command: 'yext.openFile',
-    //   title: '',
-    //   arguments: [this],
-    // };
-    this.iconPath = new vscode.ThemeIcon("key");
-  }
-
-  get path() {
-    return this.ref.path;
   }
 }
