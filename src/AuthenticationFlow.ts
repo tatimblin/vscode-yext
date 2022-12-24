@@ -8,7 +8,8 @@ export class AuthenticationFlow {
   private messageTemplate: string;
 
   constructor(message?: string) {
-    this.runCommands = new RunCommand('.yextrc');
+    this.runCommands = new RunCommand({});
+    this.runCommands.readFile('.yextrc');
     this.messageTemplate = message || `Account configuration found for %s, would you like to sign in?`;
 
     this.prompt()
@@ -24,17 +25,17 @@ export class AuthenticationFlow {
   }
 
   get message(): string {
-    let name = `${this.runCommands.businessId}`;
-    if (this.runCommands.businessName) {
-      name = `${this.runCommands.businessName} (${name})`;
+    let name = this.runCommands.getBusinessId().toString();
+    if (this.runCommands.getBusinessName()) {
+      name = `${this.runCommands.getBusinessName()} (${name})`;
     }
     return this.messageTemplate.replace('%s', name);
   }
 
   authenticate() {
     vscode.commands.executeCommand('yext.init', {
-      businessId: this.runCommands.businessId,
-      env: this.runCommands.env,
+      businessId: this.runCommands.getBusinessId(),
+      env: this.runCommands.getEnv(),
     });
   }
 }

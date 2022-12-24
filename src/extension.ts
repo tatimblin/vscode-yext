@@ -3,7 +3,8 @@ import * as vscode from "vscode";
 import { AuthenticationFlow } from './AuthenticationFlow';
 import { CredentialsProvider } from './CredentialsProvider';
 import {
-  RegisterYextInit
+  RegisterYextInit,
+  WriteYextRC,
 } from "./commands";
 
 export function activate() {
@@ -13,6 +14,7 @@ export function activate() {
 
   // Register Commands
   RegisterYextInit();
+  WriteYextRC();
 
   // Register Views
   vscode.window.registerTreeDataProvider(

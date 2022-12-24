@@ -29,6 +29,11 @@
         "icon": "$(trash)"
       },
       {
+        "command": "yext.writeYextRC",
+        "title": "Write .yextrc file",
+        "icon": "$(new-file)"
+      },
+      {
         "command": "yext.sign-in",
         "title": "Sign In (TODO)",
         "icon": "$(sign-in)"
@@ -56,6 +61,11 @@
         {
           "command": "yext.sign-in",
           "when": "viewItem == inactiveCredential",
+          "group": "inline"
+        },
+        {
+          "command": "yext.writeYextRC",
+          "when": "view == yext-credentials",
           "group": "inline"
         },
         {

@@ -1,52 +1,68 @@
-import * as vscode from "vscode";
 import * as fs from "fs";
 import { Universe } from "./types";
+import { getRoot } from "./utils";
 
-interface RunCommandsFile {
+interface RunCommandFile {
   businessId: number,
   businessName: string,
   env: Universe,
 }
 
 export class RunCommand {
-  private file: RunCommandsFile;
+  private businessId: number;
+  private businessName: string;
+  private env: Universe;
 
-  constructor(fileName: string) {
-    this.file = this.readRunCommandsFile(`${this.root}/${fileName}`);
+  constructor({
+    businessId = 0,
+    businessName = "Unknown",
+    env = Universe.Production,
+  }) {
+    this.businessId = businessId;
+    this.businessName = businessName;
+    this.env = env;
   }
 
-  get businessId(): number {
-    return this.file.businessId;
+  getBusinessId(): number {
+    return this.businessId;
   }
 
-  get businessName(): string {
-    return this.file.businessName;
+  getBusinessName(): string {
+    return this.businessName;
   }
 
-  get env(): Universe {
-    return this.file.env;
+  getEnv(): Universe {
+    return this.env;
   }
 
-  get root(): string | undefined {
-    const fileName = vscode.window.activeTextEditor?.document.fileName;
-    return vscode.workspace.workspaceFolders
-      ?.map((folder) => {
-        return folder.uri.fsPath;
-      })
-      .filter((fsPath) => fileName?.startsWith(fsPath))[0];
+  readFile(filepath: string) {
+    const file = this.parseFile(filepath);
+    Object.assign(this, file);
   }
 
-  private readRunCommandsFile(path: string): RunCommandsFile {
+  parseFile(filepath: string): RunCommandFile {
     try {
-      return fs.readFileSync(path, 'utf8')
+      return fs.readFileSync(getRoot() + filepath, 'utf8')
         .split(/\n/)
         .reduce((obj, raw) => {
           const delimted = raw.split(/=/);
           return { ...obj, [delimted[0]]: delimted[1] }
-        }, {}) as RunCommandsFile;
+        }, {}) as RunCommandFile;
     }
     catch {
-      throw new Error('.yextrc file could not be parsed');
+      throw new Error("RunCommand file could not be parsed at: " + getRoot() + filepath);
     }
+  }
+
+  writeFile(filepath = ".yextrc") {
+    fs.writeFileSync(getRoot() + filepath, this.createFile());
+  }
+
+  createFile(): string {
+    return [
+      `businessId=${this.businessId}`,
+      `businessName=${this.businessName}`,
+      `env=${this.env}`
+    ].join('\n');
   }
 }

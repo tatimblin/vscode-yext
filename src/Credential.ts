@@ -1,20 +1,21 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
 import { isDeepStrictEqual } from "util";
+import { Universe } from "./types";
 
 export interface CredentialFile {
   accessCode?: string,
   businessId: number,
   businessName: string,
-  env: string,
+  env: Universe,
   name: string,
 }
 
 export class Credential extends vscode.TreeItem {
   private filepath: string;
   private businessName: string;
-  private businessId: string;
-  private env: string;
+  private businessId: number;
+  private env: Universe;
 
   constructor(
     ref: fs.Dirent,
@@ -23,8 +24,8 @@ export class Credential extends vscode.TreeItem {
   ) {
     super(ref.name, vscode.TreeItemCollapsibleState.None);
 
-    this.env = "unknown"
-    this.businessId = "00000";
+    this.env = Universe.Production;
+    this.businessId = 0;
     this.businessName = "Unknown";
 
     const credentialFile = this.parseCredentialFile(filepath)
@@ -48,6 +49,18 @@ export class Credential extends vscode.TreeItem {
 
   get path(): string {
     return this.filepath;
+  }
+
+  getBusinessId(): number {
+    return this.businessId;
+  }
+
+  getBusinessName(): string {
+    return this.businessName;
+  }
+
+  getEnv(): Universe {
+    return this.env;
   }
 
   parseCredentialFile(filepath: string): CredentialFile {
