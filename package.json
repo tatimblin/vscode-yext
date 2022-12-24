@@ -24,24 +24,29 @@
         "icon": "$(add)"
       },
       {
-        "command": "yext.deleteCredential",
-        "title": "Delete Credential (TODO)",
+        "command": "yext.credentials.delete",
+        "title": "Delete",
         "icon": "$(trash)"
       },
       {
         "command": "yext.writeYextRC",
-        "title": "Write .yextrc file",
+        "title": "Set as default",
         "icon": "$(new-file)"
       },
       {
-        "command": "yext.sign-in",
+        "command": "yext.credentials.signin",
         "title": "Sign In (TODO)",
         "icon": "$(sign-in)"
       },
       {
         "command": "yext.credentials.refresh",
-        "title": "Refresh Credentials TreeView",
+        "title": "Refresh Credentials",
         "icon": "$(refresh)"
+      },
+      {
+        "command": "yext.credentials.remote",
+        "title": "Go to account",
+        "icon": "$(globe)"
       }
     ],
     "configuration": {
@@ -60,21 +65,29 @@
           "command": "yext.init",
           "when": "view == yext-credentials",
           "group": "navigation"
+        },
+        {
+          "command": "yext.credentials.refresh",
+          "when": "view == yext-credentials",
+          "group": "navigation"
         }
       ],
       "view/item/context": [
         {
-          "command": "yext.sign-in",
+          "command": "yext.credentials.signin",
           "when": "viewItem == inactiveCredential",
           "group": "inline"
         },
         {
           "command": "yext.writeYextRC",
-          "when": "view == yext-credentials",
-          "group": "inline"
+          "when": "view == yext-credentials"
         },
         {
-          "command": "yext.deleteCredential",
+          "command": "yext.credentials.delete",
+          "when": "view == yext-credentials"
+        },
+        {
+          "command": "yext.credentials.remote",
           "when": "view == yext-credentials",
           "group": "inline"
         }

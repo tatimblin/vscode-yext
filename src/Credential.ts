@@ -67,4 +67,15 @@ export class Credential extends vscode.TreeItem {
     const raw = fs.readFileSync(filepath, { encoding:'utf8' });
     return JSON.parse(raw);
   }
+
+  getRemoteURL(): vscode.Uri {
+    switch (this.env) {
+      case Universe.Dev:
+        return vscode.Uri.parse(`https://dev.yext.com/s/${this.businessId}/home`);
+      case Universe.Staging:
+        return vscode.Uri.parse(`https://sandbox.yext.com/s/${this.businessId}/home`);
+      default:
+        return vscode.Uri.parse(`https://www.yext.com/s/${this.businessId}/home`);
+    }
+  }
 }

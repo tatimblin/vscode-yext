@@ -6,6 +6,8 @@ import {
   DeleteCredential,
   RefreshCredentialsProvider,
   RegisterYextInit,
+  RemoteCredential,
+  SignIn,
   WriteYextRC,
 } from "./commands";
 
@@ -19,6 +21,8 @@ export function activate() {
   DeleteCredential();
   RefreshCredentialsProvider(credentialsProvider);
   RegisterYextInit();
+  RemoteCredential();
+  SignIn();
   WriteYextRC();
 
   // Register Views

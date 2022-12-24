@@ -1,6 +1,7 @@
 export enum Universe {
   Staging = 'staging',
   Production = 'production',
+  Dev = 'dev',
 };
 
 export interface Credentials {
