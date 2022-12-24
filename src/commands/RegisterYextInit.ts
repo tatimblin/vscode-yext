@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { spawn } from "child_process";
 import { Universe } from "../types";
+import { exitCode } from "process";
 
 interface RegisterYextInitArgs {
   businessId?: string,
@@ -29,8 +30,19 @@ export const RegisterYextInit = () => {
     const args = ['init', _businessId, '-u', _env];
     
     const childProcess = spawn(command, args, { shell: true });
+    let output: string[] = [];
     childProcess.stdout.on('data', d => {
-      vscode.window.showInformationMessage(d.toString());
+      output.push(d.toString());
+    });
+    childProcess.on('exit', (exitCode) => {
+      vscode.window.showInformationMessage(output.join('\n'));
+
+      if (exitCode) {
+        vscode.window.showErrorMessage('Could not initialize account: Yext CLI Failed');
+        return;
+      }
+
+      vscode.commands.executeCommand("yext.credentials.refresh");
     });
   });
 }

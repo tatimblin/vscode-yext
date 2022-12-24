@@ -9,9 +9,15 @@ type LoadProps = {
 
 export class CredentialsProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
   path: string;
+  private _onDidChangeTreeData = new vscode.EventEmitter<vscode.TreeItem | undefined>();
+  readonly onDidChangeTreeData = this._onDidChangeTreeData.event;
 
   constructor(path: string) {
     this.path = path;
+  }
+
+  refresh(): void {
+    this._onDidChangeTreeData.fire(undefined);
   }
 
   getTreeItem(element: vscode.TreeItem): vscode.TreeItem {

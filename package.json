@@ -24,7 +24,7 @@
         "icon": "$(add)"
       },
       {
-        "command": "yext.delete",
+        "command": "yext.deleteCredential",
         "title": "Delete Credential (TODO)",
         "icon": "$(trash)"
       },
@@ -37,6 +37,11 @@
         "command": "yext.sign-in",
         "title": "Sign In (TODO)",
         "icon": "$(sign-in)"
+      },
+      {
+        "command": "yext.credentials.refresh",
+        "title": "Refresh Credentials TreeView",
+        "icon": "$(refresh)"
       }
     ],
     "configuration": {
@@ -69,7 +74,7 @@
           "group": "inline"
         },
         {
-          "command": "yext.delete",
+          "command": "yext.deleteCredential",
           "when": "view == yext-credentials",
           "group": "inline"
         }
