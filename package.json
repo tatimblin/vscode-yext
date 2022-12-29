@@ -2,7 +2,7 @@
   "name": "vscode-yext",
   "displayName": "Yext",
   "description": "Manage Yext Credentials",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "tatimblin",
   "author": "Tristan Timblin",
   "license": "ISC",
