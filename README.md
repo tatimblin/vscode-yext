@@ -29,10 +29,10 @@ code --install-extension vscode-yext-[CURRENT_VERSION].vsix
 
 ## Configuration
 
-After installing, the extension needs to be pointed to your `.yext/` directory to read data from the Yext CLI. To update this path open vscode settings *[ COMMAND + , ]* and search "Yext: Path". Following the example `User/ttimblin/.yext/`, update the path based on your machine.
+After installing, the extension needs to be pointed to your `.yext/` directory to read data from the Yext CLI. To update this path open vscode settings *[ ⌘ + , ]* and search "Yext: Path". Following the example `User/ttimblin/.yext/`, update the path based on your machine.
 
 ## Features
 
-1. A `.yextrc` file in the root of the repo that triggers a prompt to sign-in to the correct account for a repo.
+1. Read / Write a `.yextrc` file in the root of the repo that triggers a prompt to automatically sign-in to the correct account for that repo.
 
-2. The *Credentials Tab* lists all your existing credentials and lets you run operations like add, delete, set `.yextrc`, and go to platform. (Right click on credential to see remaining operations)
+2. A *Credentials Tab* which lists all your existing credentials to run operations like add, delete, set `.yextrc`, and visit account. (Right click on credential to see remaining operations)
