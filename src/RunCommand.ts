@@ -3,9 +3,9 @@ import { Universe } from "./types";
 import { getRoot } from "./utils";
 
 interface RunCommandFile {
-  businessId: number,
-  businessName: string,
-  env: Universe,
+  businessId?: number,
+  businessName?: string,
+  env?: Universe,
 }
 
 export class RunCommand {
@@ -50,7 +50,8 @@ export class RunCommand {
         }, {}) as RunCommandFile;
     }
     catch {
-      throw new Error("RunCommand file could not be parsed at: " + getRoot() + filepath);
+      console.warn("RunCommand file could not be parsed at: " + getRoot() + filepath);
+      return {};
     }
   }
 

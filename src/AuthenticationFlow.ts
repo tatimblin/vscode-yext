@@ -12,6 +12,10 @@ export class AuthenticationFlow {
     this.runCommands.readFile('.yextrc');
     this.messageTemplate = message || `Account configuration found for %s, would you like to sign in?`;
 
+    if (!this.runCommands.getBusinessId()) {
+      return;
+    }
+
     this.prompt()
       .then((item) => {
         if (item === "Sign In") {
