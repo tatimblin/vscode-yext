@@ -2,6 +2,8 @@
 
 An unofficial vscode extension for interacting with the [Yext CLI](https://hitchhikers.yext.com/docs/cli/). It is assumed you have this installed for the extension to function.
 
+![Screenshot of VS Code with Yext Extension installed](assets/yext-extension.jpg)
+
 ## Installation
 
 This extension is not available in the vscode marketplace and must be installed via [code](https://code.visualstudio.com/docs/editor/command-line), run `code -h` to ensure you have it installed.
